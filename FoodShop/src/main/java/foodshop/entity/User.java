@@ -15,9 +15,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
+
 @Entity
-@Table(name = "salespersons")
-public class Salesperson {
+@Table(name = "users")
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -26,15 +28,22 @@ public class Salesperson {
 	private String lastName;
 	private String password;
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinTable(name = "salespersons_roles", joinColumns = @JoinColumn(name = "salesperson_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, mappedBy = "salesperson")
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Sale> sales = new ArrayList<Sale>();
 
-	public Salesperson() {
+	public User() {
+	}
+	
+	public User(User user) {
+		this.id = user.getId();
+		this.userName = user.getUserName();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
 	}
 
-	public Salesperson(String userName, String firstName, String lastName, String password) {
+	public User(String userName, String firstName, String lastName, String password) {
 		this.userName = userName;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -88,7 +97,19 @@ public class Salesperson {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+	
+	public void setRole(Role role) {
+		this.roles = new ArrayList<Role>();
+		this.roles.add(role);
+	}
 
+	public boolean isValid() {
+		return  StringUtils.isNotBlank(userName) && 
+				StringUtils.isNotBlank(firstName) && 
+				StringUtils.isNotBlank(lastName) && 
+				StringUtils.isNotBlank(password);
+	}
+	
 	public List<Sale> getSales() {
 		return sales;
 	}
@@ -99,7 +120,7 @@ public class Salesperson {
 
 	@Override
 	public String toString() {
-		return "Salesperson [id=" + id + ", userName=" + userName + ", firstName=" + firstName + ", lastName="
+		return "User [id=" + id + ", userName=" + userName + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", password=" + password + ", roles=" + roles + "]";
 	}
 }

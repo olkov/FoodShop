@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400');
+@import url('https://fonts.googleapis.com/css?family=EB+Garamond');
+
+/*errors*/
+.error-container {
+	font-family: 'Merriweather Sans', sans-serif;
+	margin-top: 3%;
+	text-align: center;
+}
+
+.error-container img {
+    width: 50%;
+}
+
+.error-container p {
+	margin-top: 25px;
+    font-size: 0.9rem;
+}
+
+
+body {
+	width: 90%;
+	max-width: 1400px;
+	margin: 35px auto;
+}
+
+h3 {
+	text-align: center;
+	margin: 5px;
+}
+
+.login {
+	margin: 50px auto;
+	width: 400px;
+}
+
+.login>button[type="submit"] {
+	margin: auto;
+	display: block;
+	width: 100px;
+}
+
+.header .login-register {
+	float: right;
+}
+
+.two-inputs-in-one-line-1, .two-inputs-in-one-line-2 {
+	display: inline-block;
+	float: left;
+	width: 48%;
+}
+
+.two-inputs-in-one-line-2 {
+	float: right;
+}
+
+.alert.alert-danger, .alert.info, .alert.alert-success {
+	margin: 20px;
+    display: inline-block;
+}
+
+.alert.info {
+	background-color: #e3f2fd;
+}
+
+.msg {
+	text-align: center;
+}
+

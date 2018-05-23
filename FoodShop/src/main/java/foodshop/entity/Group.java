@@ -1,10 +1,8 @@
 package foodshop.entity;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,7 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 @Entity
@@ -23,8 +20,6 @@ public class Group {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String name;
-	@OneToMany
-	private List<Group> children = new LinkedList<Group>();
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "parent_id")
 	private Group parent;
@@ -61,14 +56,6 @@ public class Group {
 
 	public void setParent(Group parent) {
 		this.parent = parent;
-	}
-
-	public List<Group> getChildren() {
-		return children;
-	}
-
-	public void setChildren(List<Group> children) {
-		this.children = children;
 	}
 
 	public List<Good> getGoods() {

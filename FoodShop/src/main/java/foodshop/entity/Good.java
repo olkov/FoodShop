@@ -29,6 +29,8 @@ public class Good {
 	private Group group;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Produser produser;
+	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, mappedBy = "good")
+	private List<Invoice> invoices;
 	
 	public Good() {
 	}
@@ -92,6 +94,14 @@ public class Good {
 
 	public void setProduser(Produser produser) {
 		this.produser = produser;
+	}
+	
+	public List<Invoice> getInvoices() {
+		return invoices;
+	}
+
+	public void setInvoices(List<Invoice> invoices) {
+		this.invoices = invoices;
 	}
 
 	@Override

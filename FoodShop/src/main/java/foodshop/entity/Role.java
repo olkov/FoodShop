@@ -18,10 +18,9 @@ public class Role {
 	private String name;
 	private boolean defaultRole;
 	@ManyToMany(mappedBy = "roles")
-	private List<Salesperson> salespersons;
+	private List<User> users;
 
-	public Role() {
-	}
+	public Role() {}
 
 	public Role(String name) {
 		this.name = name;
@@ -62,12 +61,12 @@ public class Role {
 		this.defaultRole = defaultRole;
 	}
 
-	public List<Salesperson> getSalespersons() {
-		return salespersons;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	public void setSalespersons(List<Salesperson> salespersons) {
-		this.salespersons = salespersons;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	@Override

@@ -22,13 +22,17 @@ public class Sale {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private Date date;
+	private Boolean status;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
-	private Salesperson salesperson;
+	private User user;
 	@ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(name = "sales_detail", joinColumns = {@JoinColumn(name = "sale_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "good_id", referencedColumnName = "id")})
+	@JoinTable(name = "sales_detail", joinColumns = {
+			@JoinColumn(name = "sale_id", referencedColumnName = "id") }, inverseJoinColumns = {
+					@JoinColumn(name = "good_id", referencedColumnName = "id") })
 	private List<Good> goods;
-	
-	public Sale() {}
+
+	public Sale() {
+	}
 
 	public Long getId() {
 		return id;
@@ -46,12 +50,12 @@ public class Sale {
 		this.date = date;
 	}
 
-	public Salesperson getSalesperson() {
-		return salesperson;
+	public User getUser() {
+		return user;
 	}
 
-	public void setSalesperson(Salesperson salesperson) {
-		this.salesperson = salesperson;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public List<Good> getGoods() {
@@ -62,8 +66,16 @@ public class Sale {
 		this.goods = goods;
 	}
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
-		return "Sold [id=" + id + ", date=" + date + ", salesperson=" + salesperson + "]";
+		return "Sale [id=" + id + ", date=" + date + ", status=" + status + ", user=" + user + "]";
 	}
 }
