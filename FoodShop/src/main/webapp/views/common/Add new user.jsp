@@ -1,8 +1,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<form:form method="POST" action="/register" modelAttribute="user" class="login">
-	<h3>Sign up</h3>
+<form:form method="POST" action="/addnewuser" modelAttribute="user" class="login">
+	<h3>Add new user</h3>
 	<c:if test="${error != null}">
 		<div class="alert alert-danger" role="alert">
 	  		${error}
@@ -28,7 +28,7 @@
 		<label for="confirmPassword">Confirm Password</label>
 		<input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required="required" />
 	</div>
-	<button type="submit" class="btn btn-primary" onclick="return valid()">Register</button>
+	<button type="submit" class="btn btn-primary" onclick="return valid()">Add</button>
 </form:form>
 <script>
 	function valid() {

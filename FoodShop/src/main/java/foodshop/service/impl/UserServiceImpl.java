@@ -69,5 +69,12 @@ public class UserServiceImpl implements UserService {
 	public boolean existsUserByUserName(String userName) {
 		return getUserByUserName(userName) != null;
 	}
-
+	
+	public User hasAccess(Principal principal, Long userId) {
+		User user = getUserByPrincipal(principal);
+		if (user != null && (user.isAdmin() || user.getId() == userId)) {
+			return user;
+		}
+		return null;
+	}
 }

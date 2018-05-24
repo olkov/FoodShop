@@ -3,7 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav class="navbar navbar-expand-lg navbar-light header" style="background-color: #e3f2fd;">
-	<a class="navbar-brand" href="/">Bank</a>
+	<a class="navbar-brand" href="/">Food Shop</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -19,17 +19,17 @@
 			<sec:authorize access="isAuthenticated()">
 				<div class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			        	Hi, ${principalUser.firstName} ${principalUser.lastName}
+			        	${principalUser.firstName} ${principalUser.lastName}
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 			        	<a class="dropdown-item" href="/users/${principalUser.id}">My Account</a>
 			        	<div class="dropdown-divider"></div>
-			        	<a class="dropdown-item" href="/logout">Sign out</a>
+			        	<a class="dropdown-item" href="/logout">Log out</a>
 			        </div>
 			    </div>
 			</sec:authorize>
 			<sec:authorize access="isAnonymous()">
-				<a href="/login">Sign in</a> or <a href="/register">Sign up</a>
+				<a href="/login">Log in</a>
 			</sec:authorize>
 		</div> 
 	</div>

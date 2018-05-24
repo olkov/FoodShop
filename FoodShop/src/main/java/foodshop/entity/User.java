@@ -2,6 +2,7 @@ package foodshop.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -108,6 +109,13 @@ public class User {
 				StringUtils.isNotBlank(firstName) && 
 				StringUtils.isNotBlank(lastName) && 
 				StringUtils.isNotBlank(password);
+	}
+	
+	public boolean isAdmin() {
+		try {
+			return (getRoles().stream().filter(r -> r.getName().equalsIgnoreCase("ADMIN")).findAny().get()) != null;
+		} catch (NoSuchElementException e) {}
+		return false;
 	}
 	
 	public List<Sale> getSales() {

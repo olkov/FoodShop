@@ -9,10 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,11 +23,8 @@ public class Sale {
 	private Boolean status;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private User user;
-	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "sales_detail", joinColumns = {
-			@JoinColumn(name = "sale_id", referencedColumnName = "id") }, inverseJoinColumns = {
-					@JoinColumn(name = "good_id", referencedColumnName = "id") })
-	private List<Good> goods;
+	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<SalesDetail> salesDetails;
 
 	public Sale() {
 	}
@@ -58,12 +53,12 @@ public class Sale {
 		this.user = user;
 	}
 
-	public List<Good> getGoods() {
-		return goods;
+	public List<SalesDetail> getSalesDetails() {
+		return salesDetails;
 	}
 
-	public void setGoods(List<Good> goods) {
-		this.goods = goods;
+	public void setSalesDetails(List<SalesDetail> salesDetails) {
+		this.salesDetails = salesDetails;
 	}
 
 	public Boolean getStatus() {

@@ -19,4 +19,6 @@ public interface UserService {
 	public User getUserByUserName(String userName);
 
 	public boolean existsUserByUserName(String userName);
+	
+	public User hasAccess(Principal principal, Long userId);
 }

@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,8 +20,8 @@ public class Good {
 	private Long id;
 	private String name;
 	private String unit;
-	@ManyToMany(mappedBy = "goods")
-	private List<Sale> saleses;
+	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<SalesDetail> salesDetails;
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, mappedBy = "good")
 	private List<Balance> balances;
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
@@ -63,13 +62,13 @@ public class Good {
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-
-	public List<Sale> getSaleses() {
-		return saleses;
+	
+	public List<SalesDetail> getSalesDetails() {
+		return salesDetails;
 	}
 
-	public void setSaleses(List<Sale> saleses) {
-		this.saleses = saleses;
+	public void setSalesDetails(List<SalesDetail> salesDetails) {
+		this.salesDetails = salesDetails;
 	}
 
 	public List<Balance> getBalances() {

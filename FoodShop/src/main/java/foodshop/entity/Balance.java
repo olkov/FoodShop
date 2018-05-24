@@ -18,7 +18,7 @@ public class Balance {
 	private Date dateOfReceiving;
 	private Double quantity;
 	private Double price;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private Good good;
 
 	public Balance() {}

@@ -23,23 +23,23 @@ public class HomeController {
 	public String home(Model model, Principal principal) {
 		User user = userService.getUserByPrincipal(principal);
 		if (user != null) {
-			//return "redirect:/users/" + user.getId();
+			return "redirect:/users/" + user.getId();
 		}
 		return "redirect:/login";
 	}
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login() {
-		return "common.Sign in";
+		return "common.Log in";
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	@RequestMapping(value = "/addnewuser", method = RequestMethod.GET)
 	public String register(Model model) {
 		model.addAttribute("user", new User());
-		return "common.Sign up";
+		return "common.Add new user";
 	}
 	
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/addnewuser", method = RequestMethod.POST)
 	public String register(
 			@ModelAttribute("user") User user, 
 			@RequestParam(value = "confirmPassword") String confirmPassword, 
@@ -59,6 +59,6 @@ public class HomeController {
 			return "redirect:/login";
 		}
 		model.addAttribute("error", error);
-		return "common.Sign up";
+		return "common.Add new user";
 	}
 }

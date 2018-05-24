@@ -67,3 +67,28 @@ h3 {
 	text-align: center;
 }
 
+.user-content {
+	margin-top: 10px;
+	border: 1px solid #dee2e6;
+    padding: 15px;
+}
+
+.user-content > .user-info-item {
+	padding: 3px 7px;
+	cursor: pointer;
+}
+
+.user-content > .user-info-item:hover {
+	background-color: #f8f9fa;
+	
+}
+
+.user-content > .user-info-item > .user-info-title {
+	display: inline-block;
+	width: 50%;
+}
+
+.user-content > .user-info-item > .user-info-value {
+	display: inline-block;
+	float: right;
+}
