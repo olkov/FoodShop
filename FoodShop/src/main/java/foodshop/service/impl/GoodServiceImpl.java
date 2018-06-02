@@ -20,7 +20,7 @@ public class GoodServiceImpl implements GoodService {
 	public Good save(Good good) {
 		return goodDao.save(good);
 	}
-
+	
 	@Override
 	public void delete(Long goodId) {
 		goodDao.deleteById(goodId);
@@ -30,7 +30,7 @@ public class GoodServiceImpl implements GoodService {
 	public Good getGoodById(Long goodId) {
 		return goodDao.getOne(goodId);
 	}
-
+	
 	@Override
 	public List<Good> getGoodsByName(String name) {
 		return goodDao.findGoodsByName(name);

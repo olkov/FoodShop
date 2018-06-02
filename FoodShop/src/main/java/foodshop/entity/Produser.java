@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Table(name = "produsers")
 public class Produser {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String info;
@@ -64,6 +64,6 @@ public class Produser {
 
 	@Override
 	public String toString() {
-		return "Produser [id=" + id + ", name=" + name + ", info=" + info + "]";
+		return "{\"id\":" + id + ",\"name\":\"" + name + "\",\"info\":\"" + info + "\"}";
 	}
 }

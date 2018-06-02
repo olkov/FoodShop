@@ -12,8 +12,8 @@
 		<put-attribute name="body" value="/views/users/{1}.jsp"></put-attribute>
 		<put-attribute name="title" value="{1}"></put-attribute>
 	</definition>
-	<definition name="accounts.*" extends="base.definition">
-		<put-attribute name="body" value="/views/accounts/{1}.jsp"></put-attribute>
+	<definition name="good.*" extends="base.definition">
+		<put-attribute name="body" value="/views/good/{1}.jsp"></put-attribute>
 		<put-attribute name="title" value="{1}"></put-attribute>
 	</definition>
 	<definition name="errors.*.*" extends="base.definition">

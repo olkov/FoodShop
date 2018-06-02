@@ -92,3 +92,64 @@ h3 {
 	display: inline-block;
 	float: right;
 }
+
+.add-good-form {
+	width: 400px;
+	margin: 50px auto;
+}
+
+.add-good-form > button {
+	margin: auto;
+    display: block;
+    width: 100px;
+}
+
+button:not(.close) {
+	width: 100px;
+}
+
+.editModeForGroups, .editModeForProdusers {
+	display: inline-block;
+	/*display: none;*/
+    float: right;
+    margin-top: 4px;
+    font-size: 15px;
+}
+
+.active .editModeForGroups {
+	/*display: inline-block;*/
+}
+
+.editModeForGroups i, .editModeForProdusers i {
+	margin-left: 4px;
+}
+
+.groups {
+	border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 15px 0;
+}
+
+#editMode {
+	margin-bottom: 0px;
+}
+
+#editMode button {
+	margin: auto;
+    display: block;
+    margin-top: 10px;
+}
+
+.add-or-edit-produser {
+	
+}
+
+tbody tr {
+	cursor: pointer;
+}
+
+tbody tr:hover {
+	background-color: #f8f9fa;
+}
+
