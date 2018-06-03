@@ -35,4 +35,9 @@ public class GoodServiceImpl implements GoodService {
 	public List<Good> getGoodsByName(String name) {
 		return goodDao.findGoodsByName(name);
 	}
+	
+	@Override
+	public List<Good> findAll() {
+		return goodDao.findAll();
+	}
 }

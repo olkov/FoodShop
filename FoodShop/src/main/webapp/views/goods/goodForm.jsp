@@ -1,9 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<form class="add-good-form" action="/good/add">
-	<h3>Add good</h3>
+<form class="add-good-form" id="good-form" action="/goods/${good.id}/edit" method="POST">
 	<div class="groups">
 		<div class="form-group">
 			<label>Group <i title="Add" class="fa fa-plus editGroup" aria-hidden="true" onclick="showAddGroup();"></i></label>
@@ -15,25 +11,28 @@
 			<button type="button" class="btn btn-primary" onclick="submitGroup(this);">Group</button>
 		</div>
 	</div>
-	<input type="hidden" name="groupId" />
+	<input type="hidden" name="groupId" id="groupId" />
+	<div class="form-group">
+		<label for="code">Code</label>
+		<input type="text" class="form-control" name="code" id="code" placeholder="Code" value="${good.code}">
+	</div>
 	<div class="form-group">
 		<label for="name">Good name</label>
-		<input type="text" class="form-control" name="name" id="name" placeholder="Good name" required>
+		<input type="text" class="form-control" name="name" id="name" placeholder="Good name" required value="${good.name}">
 	</div>
 	<div class="form-group">
 		<label for="unit">Unit</label>
-		<input type="text" class="form-control" name="unit" id="unit" placeholder="Unit" required>
+		<input type="text" class="form-control" name="unit" id="unit" placeholder="Unit" required value="${good.unit}">
 	</div>
 	<div class="form-group">
 		<label for="produser">Produser (<a href="#" onclick="$('#addOrEditProduserModal').modal('show');">add or edit</a>)</label>
-		<select name="produser" id="produser" class="form-control" required>
+		<select name="produser" id="produser" class="form-control">
 			<option></option>
 			<c:forEach var="produser" items="${produsers}">
-				<option value="${produser.id}">${produser.name}</option>
+				<option value="${produser.id}" <c:if test="${good.produser.id == produser.id}">selected</c:if>>${produser.name}</option>
 			</c:forEach>
 		</select>
 	</div>
-	<button class="btn btn-primary" type="submit">Add</button>
 </form>
 
 <div class="modal fade" id="addOrEditProduserModal" tabindex="-1" role="dialog" aria-labelledby="addOrEditProduserModal" aria-hidden="true">
@@ -54,13 +53,14 @@
 			                <th>Info</th>
             			</tr>
         			</thead>
-        		<tbody>
-        			<c:forEach var="produser" items="${produsers}">
-        				<tr produser-id="<c:out value="${produser.id}"/>">
-			                <td><c:out value="${produser.name}"/></td>
-			                <td><c:out value="${produser.info}"/><div class="editModeForProdusers"><i title="Edit" class="fa fa-pencil editProduser" aria-hidden="true" onclick="showEditProduser(this);"></i><i title="Remove" class="fa fa-times removeProduser" aria-hidden="true" onclick="removeProduser(<c:out value="${produser.id}"/>);"></i></div></td>
-	            		</tr>
-        			</c:forEach>
+	        		<tbody>
+	        			<c:forEach var="produser" items="${produsers}">
+	        				<tr produser-id="<c:out value="${produser.id}"/>">
+				                <td><c:out value="${produser.name}"/></td>
+				                <td><c:out value="${produser.info}"/><div class="editModeForProdusers"><i title="Edit" class="fa fa-pencil editProduser" aria-hidden="true" onclick="showEditProduser(this);"></i><i title="Remove" class="fa fa-times removeProduser" aria-hidden="true" onclick="removeProduser(<c:out value="${produser.id}"/>);"></i></div></td>
+		            		</tr>
+	        			</c:forEach>
+        			</tbody>
       			</table>
       		</div>
     	</div>
@@ -101,17 +101,25 @@
 	var tree; 
 	var produsersTable;
 	var editMode = '<div class="editModeForGroups"><i title="Add" class="fa fa-plus editGroup" aria-hidden="true" onclick="showAddGroup();"></i><i title="Edit" class="fa fa-pencil editGroup" aria-hidden="true" onclick="showEditGroup(this);"></i><i title="Remove" class="fa fa-times removeGroup" aria-hidden="true" onclick="removeGroup(this);"></i></div>';
-	
 	$(document).ready(function () {
+		var tree, northAmerica;
 		$('#parent-group-tree').tree({
 	        uiLibrary: 'bootstrap4',
-	        dataSource: '/group/json',
-	        primaryKey: 'id'
+	        dataSource: '/groups/json<c:if test="${good != null}">/${good.group.id}</c:if>',
+	        primaryKey: 'id',
 	    });
 		produsersTable = $("#produsersTable").DataTable({
 			"aaSorting": []
 		});
-		tree = $('#parent-group-tree').tree();	
+		tree = $('#parent-group-tree').tree();
+		<c:if test="${good != null}">
+		tree.on('dataBound', function() {
+	    	//$(tree.getNodeById(${good.group.id})).parent().prevObject
+	        tree.expandAll();
+	        tree.select(tree.getNodeById(${good.group.id}));
+	    });
+		</c:if>
+		tree = $('#parent-group-tree').tree();
 	});
 	
 	function showAddGroup() {
@@ -132,6 +140,7 @@
 	
 	function submitGroup(obj) {
 		var text = $(obj).text();
+		tree = $('#parent-group-tree').tree();
 		var selectedGroup = tree.getSelections();
 		var id = null;
 		var name = $("#commonGroup").val();
@@ -141,7 +150,7 @@
 		if(text.includes("Add")) {
 			$.ajax({
 				method: "POST",
-				url: "/group/add",
+				url: "/groups/add",
 				data: {parentId: id, name: name},
 				success: function(data) {
 					if(data != undefined && data != null) {
@@ -161,7 +170,7 @@
 			if(id != null) {
 				$.ajax({
 					method: "POST",
-					url: "/group/edit",
+					url: "/groups/edit",
 					data: {id: id, name: name},
 					success: function(data) {
 						if(data != undefined && data != null && data == "success") {
@@ -187,7 +196,7 @@
 		var id = $(obj).parent().parent().parent().parent().attr("data-id");
 		$.ajax({
 			method: "POST",
-			url: "/group/remove",
+			url: "/groups/remove",
 			data: {groupId: id},
 			success: function(data) {
 				if(data == "success") {
@@ -208,7 +217,7 @@
 			if(action == "Add") {
 				$.ajax({
 					method: "POST",
-					url: "/produser/add",
+					url: "/produsers/add",
 					data: {name : produserNameElem.val(), info : $("#produserInfo").val()},
 					success: function(data) {
 						data = JSON.parse(data);
@@ -225,7 +234,7 @@
 				var id = $("#produserModal #produserId").val();
 				$.ajax({
 					method: "POST",
-					url: "/produser/edit",
+					url: "/produsers/edit",
 					data: {id : id, name : produserNameElem.val(), info : produserInfoVal},
 					success: function(data) {
 						if(data == "success") {
@@ -273,16 +282,21 @@
 	function removeProduser(id) {
 		$.ajax({
 			method: "POST",
-			url: "/produser/remove",
+			url: "/produsers/remove",
 			data: {id : id},
 			success: function(data) {
 				produsersTable.row($("#addOrEditProduserModal tr[produser-id='" + id + "']")).remove().draw();
 			}
 		});
 	}
+	
+	function submitForm() {
+		tree = $('#parent-group-tree').tree();
+		if(tree.getSelections().length != 0) {
+			$("#groupId").val(tree.getSelections()[0]);
+			return true;
+		}
+		alert("Choose group!");
+		return false;
+	}
 </script>
-<script src="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/js/gijgo.min.js" type="text/javascript"></script>
-<link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.js"></script>
-

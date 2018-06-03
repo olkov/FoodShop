@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Table(name = "sales")
 public class Sale {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date date;
 	private Boolean status;

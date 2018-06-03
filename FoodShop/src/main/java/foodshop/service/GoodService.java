@@ -5,13 +5,13 @@ import java.util.List;
 import foodshop.entity.Good;
 
 public interface GoodService {
-	public Good save(Good good);
-	
-	public void delete(Long goodId);
-	
-	public Good getGoodById(Long goodId);
-	
-	public List<Good> getGoodsByName(String name);
-	
-	
+	Good save(Good good);
+
+	void delete(Long goodId);
+
+	Good getGoodById(Long goodId);
+
+	List<Good> getGoodsByName(String name);
+
+	List<Good> findAll();
 }

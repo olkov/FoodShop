@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.springframework.ui.Model;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,7 @@ import foodshop.entity.Group;
 import foodshop.service.GroupService;
 
 @RestController
-@RequestMapping(value = "/group")
+@RequestMapping(value = "/groups")
 public class GroupController {
 	@Autowired
 	private GroupService groupService;
@@ -53,6 +54,12 @@ public class GroupController {
 	
 	@RequestMapping(value = "/json", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public String getAllGroupsJson() throws JsonProcessingException {
-		return groupService.getGroupsJson(true);
+		return groupService.getGroupsJson(true, null);
+	}
+	
+	@RequestMapping(value = "/json/{id}", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public String getAllGroupsJson(@PathVariable(value = "id") Long id) throws JsonProcessingException {
+		System.err.println(": " + groupService.getGroupsJson(true, id));
+		return groupService.getGroupsJson(true, id);
 	}
 }

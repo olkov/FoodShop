@@ -20,6 +20,7 @@ public class Good {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private String code;
 	private String name;
 	private String unit;
 	@JsonIgnore
@@ -108,6 +109,14 @@ public class Good {
 
 	public void setInvoices(List<Invoice> invoices) {
 		this.invoices = invoices;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override

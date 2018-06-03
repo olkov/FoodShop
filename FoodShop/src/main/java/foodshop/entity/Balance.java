@@ -15,11 +15,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Balance {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date dateOfReceiving;
 	private Double quantity;
 	private Double price;
+	private Long invoiceId;
 	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private Good good;
@@ -70,6 +71,14 @@ public class Balance {
 
 	public void setGood(Good good) {
 		this.good = good;
+	}
+	
+	public Long getInvoiceId() {
+		return invoiceId;
+	}
+
+	public void setInvoiceId(Long invoiceId) {
+		this.invoiceId = invoiceId;
 	}
 
 	@Override

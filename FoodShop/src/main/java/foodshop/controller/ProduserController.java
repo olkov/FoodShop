@@ -13,7 +13,7 @@ import foodshop.entity.Produser;
 import foodshop.service.ProduserService;
 
 @RestController
-@RequestMapping(value = "/produser")
+@RequestMapping(value = "/produsers")
 public class ProduserController {
 	@Autowired
 	private ProduserService produserService; 

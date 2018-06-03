@@ -34,6 +34,15 @@ public class GroupDtoJson {
 		this.hasChildren = false;
 	}
 
+	public GroupDtoJson(Group group, Boolean editMode, Long checked) {
+		this.id = group.getId();
+		this.text = group.getName() + (editMode ? "<div class=\"editModeForGroups\">" + add + edit + remove + "</div>" : "");
+		this.population = null;
+		this.checked = checked == group.getId();
+		this.hasChildren = false;
+		this.children = convertToGroupDtoJson(group.getChildren(), editMode);
+	}
+	
 	public GroupDtoJson(Group group, Boolean editMode) {
 		this.id = group.getId();
 		this.text = group.getName() + (editMode ? "<div class=\"editModeForGroups\">" + add + edit + remove + "</div>" : "");

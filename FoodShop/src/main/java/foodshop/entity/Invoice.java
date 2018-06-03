@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Table(name = "invoices")
 public class Invoice {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Date dateOfReceiving;
 	private Double quantity;

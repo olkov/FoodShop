@@ -4,6 +4,10 @@
 		<put-attribute name="header" value="/views/tiles/header.jsp"></put-attribute>
 		<put-attribute name="body" value=""></put-attribute>
 	</definition>
+	<definition name="errors.*.*" extends="base.definition">
+		<put-attribute name="body" value="/views/errors/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{2}"></put-attribute>
+	</definition>
 	<definition name="common.*" extends="base.definition">
 		<put-attribute name="body" value="/views/common/{1}.jsp"></put-attribute>
 		<put-attribute name="title" value="{1}"></put-attribute>
@@ -12,12 +16,12 @@
 		<put-attribute name="body" value="/views/users/{1}.jsp"></put-attribute>
 		<put-attribute name="title" value="{1}"></put-attribute>
 	</definition>
-	<definition name="good.*" extends="base.definition">
-		<put-attribute name="body" value="/views/good/{1}.jsp"></put-attribute>
+	<definition name="goods.*" extends="base.definition">
+		<put-attribute name="body" value="/views/goods/{1}.jsp"></put-attribute>
 		<put-attribute name="title" value="{1}"></put-attribute>
 	</definition>
-	<definition name="errors.*.*" extends="base.definition">
-		<put-attribute name="body" value="/views/errors/{1}.jsp"></put-attribute>
-		<put-attribute name="title" value="{2}"></put-attribute>
+	<definition name="invoices.*" extends="base.definition">
+		<put-attribute name="body" value="/views/invoices/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{1}"></put-attribute>
 	</definition>
 </tiles-definitions>

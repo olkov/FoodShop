@@ -14,6 +14,14 @@
 					<a class="nav-link" href="/users">Users</a>
 				</li>
 			</sec:authorize>
+			<sec:authorize access="isAuthenticated()">
+				<li class="nav-item">
+					<a class="nav-link" href="/goods">Goods</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/invoices">Invoices</a>
+				</li>
+			</sec:authorize>
 		</ul>
 		<div class="login-register">
 			<sec:authorize access="isAuthenticated()">

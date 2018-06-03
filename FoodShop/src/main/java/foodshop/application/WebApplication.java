@@ -14,7 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import ch.qos.logback.core.filter.Filter;
 import foodshop.entity.Role;
 
 @EnableWebMvc
@@ -23,6 +22,7 @@ import foodshop.entity.Role;
 @SpringBootApplication(scanBasePackages = { "foodshop" })
 public class WebApplication extends SpringBootServletInitializer {
 	public static List<Role> roles = Arrays.asList(new Role(1, "SELLER", true), new Role(2, "ADMIN"));
+	public static String dateFormat = "MM/dd/yyyy";
 	
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(WebApplication.class);

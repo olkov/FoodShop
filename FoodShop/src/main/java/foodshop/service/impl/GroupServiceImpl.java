@@ -50,10 +50,10 @@ public class GroupServiceImpl implements GroupService {
 		return groupDao.findAllRoot();
 	}
 	
-	public String getGroupsJson(Boolean editMode) throws JsonProcessingException {
+	public String getGroupsJson(Boolean editMode, Long checked) throws JsonProcessingException {
 		List<GroupDtoJson> groupDtoJsons = new ArrayList<>();
 		for (Group group : getAllRoot()) {
-			groupDtoJsons.add(new GroupDtoJson(group, editMode));
+			groupDtoJsons.add(new GroupDtoJson(group, editMode, checked));
 		}
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(groupDtoJsons);

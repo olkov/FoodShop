@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import foodshop.entity.User;
 import foodshop.service.UserService;
@@ -60,5 +61,11 @@ public class HomeController {
 		}
 		model.addAttribute("error", error);
 		return "common.Add new user";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/favicon.ico")
+	public String favicon() {
+		return null;
 	}
 }
