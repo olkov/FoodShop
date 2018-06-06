@@ -18,13 +18,13 @@ public class InvoiceServiceImpl implements InvoiceService {
 	private InvoiceRepository invoiceRepository;
 	
 	@Override
-	public Invoice save(Invoice invoice) {
+	public boolean save(Invoice invoice) {
 		try {
 			return invoiceRepository.save(invoice);
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return false;
 	}
 
 	@Override

@@ -108,7 +108,7 @@ button:not(.close) {
 	width: 100px;
 }
 
-.editModeForGroups, .editModeForProdusers {
+.editModeForGroups, .editModeForProdusers, .editModeForVendors {
 	display: inline-block;
 	/*display: none;*/
     float: right;
@@ -116,7 +116,7 @@ button:not(.close) {
     font-size: 15px;
 }
 
-.editModeForGroups i, .editModeForProdusers i {
+.editModeForGroups i, .editModeForProdusers i, .editModeForVendors i {
 	margin-left: 4px;
 }
 
@@ -153,3 +153,7 @@ tbody tr:hover {
 	background-color: #f8f9fa;
 }
 
+.commands a {
+	display: inline-block;
+	width: 80px;
+}

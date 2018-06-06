@@ -26,6 +26,13 @@ public class Vendor {
 	public Vendor() {
 	}
 
+	public Vendor(String name, String phone, String info) {
+		super();
+		this.name = name;
+		this.phone = phone;
+		this.info = info;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -68,6 +75,6 @@ public class Vendor {
 
 	@Override
 	public String toString() {
-		return "Vendor [id=" + id + ", name=" + name + ", phone=" + phone + ", info=" + info + "]";
+		return "{\"id\":" + id + ",\"name\":\"" + name + "\",\"phone\":\"" + phone + "\",\"info\":\"" + info + "\"}";
 	}
 }

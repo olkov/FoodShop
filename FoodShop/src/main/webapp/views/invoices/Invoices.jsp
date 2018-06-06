@@ -3,7 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h3>Invoices</h3>
-<a href="/invoices/add" class="btn btn-primary" style="margin: 10px auto; display: block; width: 120px;">Add invoice</a>
 <table id="invoicesTable" class="display" style="width:100%">
 	<thead>
 		<tr>
@@ -11,6 +10,7 @@
 			<th>Date of receiving</th>
 			<th>Quantity</th>
 			<th>Total price</th>
+			<th>Vendor</th>
 			<th style="width: 40px">Commands</th>
         </tr>
     </thead>
@@ -18,11 +18,14 @@
     	<c:forEach var="invoice" items="${invoices}">
         	<tr invoice-id="<c:out value="${invoice.id}"/>">
         		<td><c:out value="${invoice.id}"/></td>
-				<td><c:out value="${invoice.dateOfReceiving}"/></td>
+				<td>
+					<fmt:formatDate pattern="MM/dd/yyyy" value="${invoice.dateOfReceiving}" />
+				</td>
 			    <td><c:out value="${invoice.quantity}"/></td>
 			    <td><c:out value="${invoice.price}"/></td>
+			    <td><c:out value="${invoice.vendor.name}"/></td>
 			    <td>
-					<a class="btn btn-success" href="/invoices/${invoice.id}/edit" style="width: 100%;">Edit</a>
+					<a class="btn btn-primary" href="/invoices/${invoice.id}/edit" style="width: 100%;">Edit</a>
 				</td>
 	        </tr>
 		</c:forEach>
@@ -59,23 +62,13 @@
     	</div>
   	</div>
 </div>
-
 <script>
 	var invoicesTable;
-
 	$(document).ready(function () {
 		invoicesTable = $("#invoicesTable").DataTable({
 			"aaSorting": []
 		});
 	});
-	
-	function showAddGroup() {
-		$("#editMode label").html("Add group");
-		$("#editMode input").val("");
-		$("#editMode button").html("Add group");
-		$("#editMode").show();
-	}
-
 </script>
 <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>

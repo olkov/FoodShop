@@ -6,7 +6,7 @@ import java.util.List;
 import foodshop.entity.Invoice;
 
 public interface InvoiceRepository {
-	Invoice save(Invoice invoice) throws ParseException;
+	boolean save(Invoice invoice) throws ParseException;
 
 	void deleteById(Long invoiceId);
 

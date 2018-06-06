@@ -28,7 +28,10 @@ public class VendorServiceImpl implements VendorService {
 
 	@Override
 	public Vendor getById(Long vendorId) {
-		return vendorDao.getOne(vendorId);
+		if(vendorDao.existsById(vendorId)) {
+			return vendorDao.getOne(vendorId);
+		}
+		return null;
 	}
 
 	@Override

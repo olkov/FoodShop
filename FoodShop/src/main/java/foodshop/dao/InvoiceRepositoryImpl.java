@@ -31,23 +31,23 @@ public class InvoiceRepositoryImpl implements InvoiceRepository {
 	@Autowired
 	private VendorService vendorService;
 	
-	public Invoice save(Invoice invoice) throws ParseException {
+	public boolean save(Invoice invoice) throws ParseException {
 		Good good = invoice.getGood();
 		Vendor vendor = invoice.getVendor();
 		StoredProcedureQuery query = entityManager.createStoredProcedureQuery("saveInvoice")
-                .registerStoredProcedureParameter(1, Long.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(2, Date.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(3, Double.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(4, Double.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(5, Long.class, ParameterMode.IN)
-                .registerStoredProcedureParameter(6, Long.class, ParameterMode.IN)
-                .setParameter(1, invoice.getId())
-                .setParameter(2, invoice.getDateOfReceiving())
-                .setParameter(3, invoice.getQuantity())
-                .setParameter(4, invoice.getPrice())
-                .setParameter(5, good != null ? good.getId() : null)
-                .setParameter(6, vendor != null ? vendor.getId() : null);
-		return buildQueryResult((Object[]) query.getSingleResult());
+                .registerStoredProcedureParameter("invoiceId", Long.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("date", Date.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("quantity", Double.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("price", Double.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("goodId", Long.class, ParameterMode.IN)
+                .registerStoredProcedureParameter("vendorId", Long.class, ParameterMode.IN)
+                .setParameter("invoiceId", invoice.getId())
+                .setParameter("date", invoice.getDateOfReceiving())
+                .setParameter("quantity", invoice.getQuantity())
+                .setParameter("price", invoice.getPrice())
+                .setParameter("goodId", good != null ? good.getId() : null)
+                .setParameter("vendorId", vendor != null ? vendor.getId() : null);
+		return query.execute();
 	}
 	
 	public void deleteById(Long invoiceId) {
@@ -72,7 +72,7 @@ public class InvoiceRepositoryImpl implements InvoiceRepository {
 	private Invoice buildQueryResult(Object[] resultObj) throws ParseException {	
 		Invoice invoice = new Invoice();
 		invoice.setId(Long.valueOf(resultObj[0].toString()));
-		invoice.setDateOfReceiving(Utils.parseDate(resultObj[1].toString()));
+		invoice.setDateOfReceiving(Utils.parseSQLDate(resultObj[1].toString()));
 		invoice.setPrice(Double.valueOf(resultObj[2].toString()));
 		invoice.setQuantity(Double.valueOf(resultObj[3].toString()));
 		Long goodId = resultObj[4] != null ? Long.valueOf(resultObj[4].toString()) : null;

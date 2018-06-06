@@ -10,4 +10,8 @@ public class Utils {
 	public static Date parseDate(String date) throws ParseException {
 		return new SimpleDateFormat(WebApplication.dateFormat).parse(date);
 	}
+	
+	public static Date parseSQLDate(String date) throws ParseException {
+		return new SimpleDateFormat(WebApplication.dateFormatSQL).parse(date);
+	}
 }

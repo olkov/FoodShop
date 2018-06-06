@@ -28,7 +28,10 @@ public class GoodServiceImpl implements GoodService {
 	
 	@Override
 	public Good getGoodById(Long goodId) {
-		return goodDao.getOne(goodId);
+		if(goodDao.existsById(goodId)) {
+			return goodDao.getOne(goodId);
+		}
+		return null;
 	}
 	
 	@Override

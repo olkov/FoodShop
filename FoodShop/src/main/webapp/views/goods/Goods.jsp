@@ -13,7 +13,7 @@
 			<th>Unit</th>
 			<th>Group</th>
 			<th>Produser</th>
-			<th style="width: 40px">Commands</th>
+			<th style="width: 149px">Commands</th>
         </tr>
     </thead>
     <tbody>
@@ -25,8 +25,10 @@
 			    <td><c:out value="${good.unit}"/></td>
 			    <td><c:out value="${good.group.name}"/></td>
 			    <td><c:out value="${good.produser.name}"/></td>
-			    <td>
-					<a class="btn btn-success" href="/goods/${good.id}/edit" style="width: 100%;">Edit</a>
+			    <td class="commands">
+					
+					<a class="btn btn-info" href="/invoices/add/${good.id}">Invoice</a>
+					<a class="btn btn-primary" href="/goods/${good.id}/edit">Edit</a>
 				</td>
 	        </tr>
 		</c:forEach>

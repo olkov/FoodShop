@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Invoice {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	private Date dateOfReceiving;
 	private Double quantity;
 	private Double price;
@@ -26,6 +26,12 @@ public class Invoice {
 	private Vendor vendor;
 
 	public Invoice() {
+	}
+
+	public Invoice(Date dateOfReceiving, Double quantity, Double price) {
+		this.dateOfReceiving = dateOfReceiving;
+		this.quantity = quantity;
+		this.price = price;
 	}
 
 	public Long getId() {

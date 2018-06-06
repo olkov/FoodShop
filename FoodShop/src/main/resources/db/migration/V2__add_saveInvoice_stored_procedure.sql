@@ -10,11 +10,14 @@ BEGIN
 	BEGIN TRANSACTION;
     SAVE TRANSACTION saveInvoiceTran;
     BEGIN TRY
-		IF @invoiceId IS NULL
+		IF @invoiceId = 0
 			BEGIN
-				INSERT INTO invoices(date_of_receiving, quantity, price, good_id, vendor_id) VALUES (@date, @quantity, @price, @goodId, @vendorId);
-				INSERT INTO balance(date_of_receiving, quantity, price, good_id, invoice_id) VALUES (@date, @quantity, @price, @goodId, SCOPE_IDENTITY());
-				SELECT * FROM invoices WHERE id = SCOPE_IDENTITY();
+				DECLARE @id table (ID bigint);
+				DECLARE @insertedId bigint;
+				INSERT INTO invoices(date_of_receiving, quantity, price, good_id, vendor_id) OUTPUT inserted.id INTO @id VALUES (@date, @quantity, @price, @goodId, @vendorId);
+				SELECT @insertedId = ID FROM @id;
+				INSERT INTO balance(date_of_receiving, quantity, price, good_id, invoice_id) VALUES (@date, @quantity, @price, @goodId, @insertedId);
+				SELECT * FROM invoices WHERE id = @insertedId;
 			END;
 		ELSE
 			BEGIN
