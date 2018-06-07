@@ -29,7 +29,7 @@ public class GoodController {
 	
 	@RequestMapping(value = { "" }, method = RequestMethod.GET)
 	public String goodsPage(Model model, Principal principal) {
-		model.addAttribute("goods", goodService.findAll());
+		model.addAttribute("goods", goodService.findAllDto());
 		return "goods.Goods";
 	}
 	

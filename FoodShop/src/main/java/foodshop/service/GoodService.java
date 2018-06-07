@@ -2,6 +2,7 @@ package foodshop.service;
 
 import java.util.List;
 
+import foodshop.dto.GoodDto;
 import foodshop.entity.Good;
 
 public interface GoodService {
@@ -14,4 +15,6 @@ public interface GoodService {
 	List<Good> getGoodsByName(String name);
 
 	List<Good> findAll();
+	
+	List<GoodDto> findAllDto();
 }

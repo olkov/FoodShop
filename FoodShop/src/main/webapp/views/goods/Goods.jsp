@@ -4,10 +4,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h3>Goods</h3>
 <a href="/goods/add" class="btn btn-primary" style="margin: 10px auto; display: block; width: 120px;">Add good</a>
-<table id="goodsTable" class="display" style="width:100%">
+<table id="goodsTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; border-collapse: collapse !important;">
 	<thead>
 		<tr>
-			<th style="width: 50px">ID</th>
+			<th></th>
 			<th style="">Code</th>
 			<th>Name</th>
 			<th>Unit</th>
@@ -18,15 +18,14 @@
     </thead>
     <tbody>
     	<c:forEach var="good" items="${goods}">
-        	<tr good-id="<c:out value="${good.id}"/>">
-        		<td><c:out value="${good.id}"/></td>
+        	<tr good-id="<c:out value="${good.id}"/>" style="background-color: white;">
+        		<td onclick='showBalance(this, ${good.balances});'></td>
 				<td><c:out value="${good.code}"/></td>
 				<td><c:out value="${good.name}"/></td>
 			    <td><c:out value="${good.unit}"/></td>
 			    <td><c:out value="${good.group.name}"/></td>
 			    <td><c:out value="${good.produser.name}"/></td>
 			    <td class="commands">
-					
 					<a class="btn btn-info" href="/invoices/add/${good.id}">Invoice</a>
 					<a class="btn btn-primary" href="/goods/${good.id}/edit">Edit</a>
 				</td>
@@ -53,13 +52,14 @@
 			                <th>Info</th>
             			</tr>
         			</thead>
-        		<tbody>
-        			<c:forEach var="produser" items="${produsers}">
-        				<tr produser-id="<c:out value="${produser.id}"/>">
-			                <td><c:out value="${produser.name}"/></td>
-			                <td><c:out value="${produser.info}"/><div class="editModeForProdusers"><i title="Edit" class="fa fa-pencil editProduser" aria-hidden="true" onclick="showEditProduser(this);"></i><i title="Remove" class="fa fa-times removeProduser" aria-hidden="true" onclick="removeProduser(<c:out value="${produser.id}"/>);"></i></div></td>
-	            		</tr>
-        			</c:forEach>
+	        		<tbody>
+	        			<c:forEach var="produser" items="${produsers}">
+	        				<tr produser-id="<c:out value="${produser.id}"/>">
+				                <td><c:out value="${produser.name}"/></td>
+				                <td><c:out value="${produser.info}"/><div class="editModeForProdusers"><i title="Edit" class="fa fa-pencil editProduser" aria-hidden="true" onclick="showEditProduser(this);"></i><i title="Remove" class="fa fa-times removeProduser" aria-hidden="true" onclick="removeProduser(<c:out value="${produser.id}"/>);"></i></div></td>
+		            		</tr>
+	        			</c:forEach>
+	        		</tbody>
       			</table>
       		</div>
     	</div>
@@ -68,12 +68,82 @@
 
 <script>
 	var goodsTable;
-
+	
 	$(document).ready(function () {
 		goodsTable = $("#goodsTable").DataTable({
+			"columns": [
+	            {
+	                "className": 'details-control',
+	                "orderable": false,
+	                "data": null,
+	                "defaultContent": ''
+	            },
+	            { "data" : "code" },
+	            { "data" : "name" },
+	            { "data" : "unit" },
+	            { "data" : "group" },
+	            { "data" : "produser" },
+	            {
+	                "orderable": false
+	            }
+            ],
 			"aaSorting": []
 		});
+		/*
+		$('#goodsTable tbody').on('click', 'td.details-control', function () {
+	        var tr = $(this).closest('tr');
+	        var row = goodsTable.row(tr);
+	 
+	        if ( row.child.isShown() ) {
+	            // This row is already open - close it
+	            row.child.hide();
+	            tr.removeClass('shown');
+	        } else {
+	            // Open this row
+	            row.child( format(row.data())).show();
+	            tr.addClass('shown');
+	        }
+	    } );*/
 	});
+	
+	function showBalance(elem, data) {
+		 var tr = $(elem).closest('tr');
+	     var row = goodsTable.row(tr);
+	     if (row.child.isShown()) {
+	     	row.child.hide();
+	        tr.removeClass('shown');
+	     } else {
+	        row.child(format(data)).show();
+	        tr.addClass('shown');
+	    }
+	}
+	
+	function format(data) {
+		var table = 
+		'<table class="childTable">' + 
+			'<thead>' +
+				'<tr>' +
+					'<th>Date of receiving</th>' +
+					'<th>Quantity</th>' +
+					'<th>Price per unit</th>' +
+				'</tr>' +
+			'</thead>' +
+			'<tbody>';
+			    for(var i = 0; i < data.length; i++) {
+			    	table += 
+				    	'<tr>' +
+				            '<td>' + data[i].dateOfReceiving + '</td>'+
+				            '<td>' + data[i].quantity + '</td>'+
+				            '<td>' + data[i].pricePerUnit + '</td>'+
+				        '</tr>';
+			    }
+				table += 
+			'</tbody>' +
+		'</table>';
+		return table;
+	}
+	
+	
 	
 	function showAddGroup() {
 		$("#editMode label").html("Add group");

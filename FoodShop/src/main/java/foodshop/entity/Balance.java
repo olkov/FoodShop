@@ -19,7 +19,7 @@ public class Balance {
 	private Long id;
 	private Date dateOfReceiving;
 	private Double quantity;
-	private Double price;
+	private Double pricePerUnit;
 	private Long invoiceId;
 	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
@@ -27,10 +27,10 @@ public class Balance {
 
 	public Balance() {}
 
-	public Balance(Date dateOfReceiving, Double quantity, Double price) {
+	public Balance(Date dateOfReceiving, Double quantity, Double pricePerUnit) {
 		this.dateOfReceiving = dateOfReceiving;
 		this.quantity = quantity;
-		this.price = price;
+		this.pricePerUnit = pricePerUnit;
 	}
 
 	public Long getId() {
@@ -57,12 +57,12 @@ public class Balance {
 		this.quantity = quantity;
 	}
 
-	public Double getPrice() {
-		return price;
+	public Double getPricePerUnit() {
+		return pricePerUnit;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
+	public void setPricePerUnit(Double pricePerUnit) {
+		this.pricePerUnit = pricePerUnit;
 	}
 
 	public Good getGood() {
@@ -83,7 +83,7 @@ public class Balance {
 
 	@Override
 	public String toString() {
-		return "Balance [id=" + id + ", dateOfReceiving=" + dateOfReceiving + ", quantity=" + quantity + ", price="
-				+ price + "]";
+//		return "{\"id\":" + id + ",\"dateOfReceiving\":\"" + dateOfReceiving + "\",\"quantity\":" + quantity + ",\"price\":" + price + "}";
+		return "{id:" + id + ",dateOfReceiving:\"" + dateOfReceiving + "\",quantity:" + quantity + ",pricePerUnit:" + pricePerUnit + "}";
 	}
 }
