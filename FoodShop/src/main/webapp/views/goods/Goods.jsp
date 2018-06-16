@@ -1,9 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <h3>Goods</h3>
-<a href="/goods/add" class="btn btn-primary" style="margin: 10px auto; display: block; width: 120px;">Add good</a>
+<sec:authorize access="hasRole('ADMIN')">
+	<a href="/goods/add" class="btn btn-primary" style="margin: 10px auto; display: block; width: 120px;">Add good</a>
+</sec:authorize>
 <table id="goodsTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; border-collapse: collapse !important;">
 	<thead>
 		<tr>
@@ -13,22 +16,26 @@
 			<th>Unit</th>
 			<th>Group</th>
 			<th>Produser</th>
-			<th style="width: 149px">Commands</th>
+			<sec:authorize access="hasRole('ADMIN')">
+				<th style="width: 149px">Commands</th>
+			</sec:authorize>
         </tr>
     </thead>
     <tbody>
     	<c:forEach var="good" items="${goods}">
         	<tr good-id="<c:out value="${good.id}"/>" style="background-color: white;">
-        		<td onclick='showBalance(this, ${good.balances});'></td>
+        		<td <c:if test="${!good.balances.isEmpty()}">onclick='showBalance(this, ${good.balances});'</c:if><c:if test="${good.balances.isEmpty()}">id="hide-background"</c:if>></td>
 				<td><c:out value="${good.code}"/></td>
 				<td><c:out value="${good.name}"/></td>
 			    <td><c:out value="${good.unit}"/></td>
 			    <td><c:out value="${good.group.name}"/></td>
 			    <td><c:out value="${good.produser.name}"/></td>
-			    <td class="commands">
-					<a class="btn btn-info" href="/invoices/add/${good.id}">Invoice</a>
-					<a class="btn btn-primary" href="/goods/${good.id}/edit">Edit</a>
-				</td>
+			    <sec:authorize access="hasRole('ADMIN')">
+				    <td class="commands">
+						<a class="btn btn-info" href="/invoices/add/${good.id}">Invoice</a>
+						<a class="btn btn-primary" href="/goods/${good.id}/edit">Edit</a>
+					</td>
+				</sec:authorize>
 	        </tr>
 		</c:forEach>
 	</tbody>
@@ -68,7 +75,6 @@
 
 <script>
 	var goodsTable;
-	
 	$(document).ready(function () {
 		goodsTable = $("#goodsTable").DataTable({
 			"columns": [
@@ -82,28 +88,13 @@
 	            { "data" : "name" },
 	            { "data" : "unit" },
 	            { "data" : "group" },
-	            { "data" : "produser" },
-	            {
-	                "orderable": false
-	            }
+	            { "data" : "produser" }
+	            <sec:authorize access="hasRole('ADMIN')">
+	            	,{"orderable": false}
+	            </sec:authorize>
             ],
 			"aaSorting": []
 		});
-		/*
-		$('#goodsTable tbody').on('click', 'td.details-control', function () {
-	        var tr = $(this).closest('tr');
-	        var row = goodsTable.row(tr);
-	 
-	        if ( row.child.isShown() ) {
-	            // This row is already open - close it
-	            row.child.hide();
-	            tr.removeClass('shown');
-	        } else {
-	            // Open this row
-	            row.child( format(row.data())).show();
-	            tr.addClass('shown');
-	        }
-	    } );*/
 	});
 	
 	function showBalance(elem, data) {
@@ -113,12 +104,12 @@
 	     	row.child.hide();
 	        tr.removeClass('shown');
 	     } else {
-	        row.child(format(data)).show();
+	        row.child(format($(elem).parent().attr("good-id"), data)).show();
 	        tr.addClass('shown');
 	    }
 	}
 	
-	function format(data) {
+	function format(goodId, data) {
 		var table = 
 		'<table class="childTable">' + 
 			'<thead>' +
@@ -126,15 +117,20 @@
 					'<th>Date of receiving</th>' +
 					'<th>Quantity</th>' +
 					'<th>Price per unit</th>' +
+					'<th>Commands</th>' +
 				'</tr>' +
 			'</thead>' +
 			'<tbody>';
 			    for(var i = 0; i < data.length; i++) {
 			    	table += 
-				    	'<tr>' +
-				            '<td>' + data[i].dateOfReceiving + '</td>'+
-				            '<td>' + data[i].quantity + '</td>'+
-				            '<td>' + data[i].pricePerUnit + '</td>'+
+				    	'<tr balance-id="' + data[i].id + '" good-id="' + goodId + '">' +
+				            '<td>' + data[i].dateOfReceiving.split(" ")[0] + '</td>'+
+				            '<td class="quantity">' + data[i].quantity + '</td>'+
+				            '<td>' + Number((data[i].pricePerUnit).toFixed(2)) + '</td>'+
+				            '<td class="add-to-cart">' +
+				            	'<input tyle="text" class="form-control amt" placeholder="AMT" />'+
+				            	'<button onclick="addToCart(this);" class="btn btn-dark">Add to cart</button>'+
+				            '</td>'+
 				        '</tr>';
 			    }
 				table += 
@@ -142,16 +138,40 @@
 		'</table>';
 		return table;
 	}
-	
-	
-	
+
 	function showAddGroup() {
 		$("#editMode label").html("Add group");
 		$("#editMode input").val("");
 		$("#editMode button").html("Add group");
 		$("#editMode").show();
 	}
-
+	
+	function addToCart(elem) {
+		var addToCartElem = $(elem).parent();
+		var amtElem = addToCartElem.find(".amt");
+		var amt = amtElem.val();
+		var quantityElem = addToCartElem.parent().find(".quantity");
+		if(validateMoney(amtElem, true)) {
+			if(parseFloat(quantityElem.text()) - parseFloat(amt) >= 0) {
+				$.ajax({
+					method: "POST",
+					url: "/cart/add",
+					data: {goodId: addToCartElem.parent().attr("good-id"), balanceId: addToCartElem.parent().attr("balance-id"), amount: amt},
+					success: function(data) {
+						if(data != undefined && data != null && data == "success") {
+							amtElem.val("");
+							quantityElem.text(parseFloat(quantityElem.text()) - parseFloat(amt));
+							window.location.href = "/cart";
+						} else {
+							alert(data);
+						}
+					}
+				});
+			} else {
+				alert("Incorrect quantity!");
+			}
+		}
+	}
 </script>
 <link href="https://cdn.jsdelivr.net/npm/gijgo@1.9.6/css/gijgo.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.16/datatables.min.css"/>

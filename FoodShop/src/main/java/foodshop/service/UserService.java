@@ -3,6 +3,7 @@ package foodshop.service;
 import java.security.Principal;
 import java.util.List;
 
+import foodshop.dto.UserDto;
 import foodshop.entity.User;
 
 public interface UserService {
@@ -10,7 +11,7 @@ public interface UserService {
 
 	public void deleteUser(Long id);
 
-	public List<User> getAllUsers();
+	public List<UserDto> getAllUsers();
 
 	public User getUserById(Long id);
 

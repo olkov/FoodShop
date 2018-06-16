@@ -28,10 +28,10 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String password;
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 	private List<Role> roles;
-	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY, mappedBy = "user")
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	private List<Sale> sales = new ArrayList<Sale>();
 
 	public User() {

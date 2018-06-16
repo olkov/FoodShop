@@ -1,5 +1,6 @@
 package foodshop.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,12 +22,18 @@ public class Sale {
 	private Long id;
 	private Date date;
 	private Boolean status;
-	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private User user;
-	@OneToMany(mappedBy = "sale", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<SalesDetail> salesDetails;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "sale")
+	private List<SalesDetail> salesDetails = new ArrayList<>();
 
 	public Sale() {
+	}
+
+	public Sale(Date date, User user) {
+		this.date = date;
+		this.status = false;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -59,6 +66,10 @@ public class Sale {
 
 	public void setSalesDetails(List<SalesDetail> salesDetails) {
 		this.salesDetails = salesDetails;
+	}
+
+	public void addSalesDetails(SalesDetail detail) {
+		this.salesDetails.add(detail);
 	}
 
 	public Boolean getStatus() {

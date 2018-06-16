@@ -83,7 +83,6 @@ public class Balance {
 
 	@Override
 	public String toString() {
-//		return "{\"id\":" + id + ",\"dateOfReceiving\":\"" + dateOfReceiving + "\",\"quantity\":" + quantity + ",\"price\":" + price + "}";
 		return "{id:" + id + ",dateOfReceiving:\"" + dateOfReceiving + "\",quantity:" + quantity + ",pricePerUnit:" + pricePerUnit + "}";
 	}
 }

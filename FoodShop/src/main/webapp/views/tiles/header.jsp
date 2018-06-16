@@ -19,10 +19,15 @@
 					<a class="nav-link" href="/goods">Goods</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/invoices">Invoices</a>
+					<a class="nav-link" href="/sales/history">Sales history</a>
 				</li>
 			</sec:authorize>
 		</ul>
+		<sec:authorize access="isAuthenticated()">
+			<a href="/cart" style="margin-right: 15px;">
+				<i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i>
+			</a>
+		</sec:authorize>
 		<div class="login-register">
 			<sec:authorize access="isAuthenticated()">
 				<div class="nav-item dropdown">

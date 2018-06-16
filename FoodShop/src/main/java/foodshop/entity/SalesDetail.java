@@ -1,12 +1,12 @@
 package foodshop.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 @Entity
@@ -15,16 +15,21 @@ public class SalesDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("sale_id")
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	private Sale sale;
-	@ManyToOne(fetch = FetchType.LAZY)
-	@MapsId("good_id")
+	@ManyToOne(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
 	private Good good;
+	private Long balanceId;
 	private Double quantity;
 	private Double price;
 
 	public SalesDetail() {
+	}
+
+	public SalesDetail(Good good, Double quantity, Double price) {
+		this.good = good;
+		this.quantity = quantity;
+		this.price = price;
 	}
 
 	public Long getId() {
@@ -65,5 +70,13 @@ public class SalesDetail {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public Long getBalanceId() {
+		return balanceId;
+	}
+
+	public void setBalanceId(Long balanceId) {
+		this.balanceId = balanceId;
 	}
 }

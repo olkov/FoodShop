@@ -19,5 +19,7 @@ public interface GroupService {
 	
 	List<Group> getAllRoot();
 	
-	String getGroupsJson(Boolean editMode, Long checked) throws JsonProcessingException ;
+	String getGroupsJson(Boolean editMode, Long checked) throws JsonProcessingException;
+	
+	String buildGroupHierarchy(Group group);
 }

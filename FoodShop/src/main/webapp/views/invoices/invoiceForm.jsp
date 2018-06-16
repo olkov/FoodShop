@@ -1,7 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <form class="add-good-form" id="invoice-form" action="/invoices/${invoice.id}/edit" method="POST" style="margin: 30px auto; margin-top: 10px;">
-	<label>Good: ${good.name}</label>
+	<div>Group: <strong>${groupHierarchy}</strong></div>
+	<div>Good: <strong>${good.name}</strong></div>
 	<div class="form-group">
 		<label for="vendor">Vendor (<a href="#" onclick="$('#addOrEditVendorModal').modal('show');">add or edit</a>)</label>
 		<select name="vendor" id="vendor" class="form-control" required>

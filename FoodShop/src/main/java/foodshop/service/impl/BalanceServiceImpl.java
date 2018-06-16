@@ -36,6 +36,11 @@ public class BalanceServiceImpl implements BalanceService {
 	public List<Balance> getAllByGoodId(Long goodId) {
 		return balanceDao.findAllByGoodId(goodId);
 	}
+	
+	@Override
+	public List<Balance> getAllAvailableByGoodId(Long goodId) {
+		return balanceDao.findAllAvailableByGoodId(goodId);
+	}
 
 	@Override
 	public List<Balance> getAll() {

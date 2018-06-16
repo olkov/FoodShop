@@ -58,4 +58,20 @@ public class GroupServiceImpl implements GroupService {
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(groupDtoJsons);
 	}
+
+	public String buildGroupHierarchy(Group group) {
+		String str = buildGroupHierarchy(group, "»");
+		return (str != null) ? (str) : null;
+	}
+	
+	private String buildGroupHierarchy(Group group, String separator) {
+		if(group == null) {
+			return null;
+		}
+		String str = group.getName();
+		if (group.getParent() != null) {
+			return str = buildGroupHierarchy(group.getParent(), separator) + "<span> " + separator + " </span>" + str;
+		}
+		return str;
+	}
 }

@@ -1,6 +1,7 @@
 package foodshop.service.impl;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import foodshop.application.WebApplication;
 import foodshop.dao.UserDao;
+import foodshop.dto.UserDto;
 import foodshop.entity.Role;
 import foodshop.entity.User;
+import foodshop.service.SaleService;
 import foodshop.service.UserService;
 
 @Service
@@ -20,8 +23,12 @@ import foodshop.service.UserService;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserDao userDao;
+	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	
+	@Autowired
+	private SaleService saleService;
 
 	public User saveUser(User user) {
 		if (user != null && user.isValid()) {
@@ -35,23 +42,26 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	public void deleteUser(Long id) {
-		userDao.deleteById(id);
-		/*User user = userDAO.getOne(id);
-		if (user != null) {
-			user.setRole(null);
-			userDAO.delete(user);
-			return true;
+	public void deleteUser(Long userId) {
+		if(userDao.existsById(userId)) {
+			userDao.deleteById(userId);
 		}
-		return false;*/
 	}
 
-	public List<User> getAllUsers() {
-		return userDao.findAll();
+	public List<UserDto> getAllUsers() {
+		List<User> users = userDao.findAll();
+		List<UserDto> userDtos = new ArrayList<>();
+		for (User user : users) {
+			userDtos.add(new UserDto(user, saleService.countByUserId(user.getId(), true), saleService.totalByUserId(user.getId(), true)));
+		}
+		return userDtos;
 	}
 
-	public User getUserById(Long id) {
-		return userDao.getOne(id);
+	public User getUserById(Long userId) {
+		if(userDao.existsById(userId)) {
+			return userDao.getOne(userId);
+		}
+		return null;
 	}
 
 	@Cacheable("principalUser")

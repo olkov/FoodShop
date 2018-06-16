@@ -56,7 +56,7 @@ public class GoodServiceImpl implements GoodService {
 		List<Good> goods = goodDao.findAll();
 		for (Good good : goods) {
 			GoodDto dto = new GoodDto(good);
-			dto.setBalances(balanceService.getAllByGoodId(dto.getId()));
+			dto.setBalances(balanceService.getAllAvailableByGoodId(dto.getId()));
 			goodDtos.add(dto);
 		}
 		return goodDtos;

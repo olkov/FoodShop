@@ -13,5 +13,7 @@ public interface BalanceService {
 
 	List<Balance> getAllByGoodId(Long goodId);
 
+	List<Balance> getAllAvailableByGoodId(Long goodId);
+	
 	List<Balance> getAll();
 }

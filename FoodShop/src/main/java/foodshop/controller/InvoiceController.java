@@ -17,6 +17,7 @@ import foodshop.entity.Good;
 import foodshop.entity.Invoice;
 import foodshop.entity.Vendor;
 import foodshop.service.GoodService;
+import foodshop.service.GroupService;
 import foodshop.service.InvoiceService;
 import foodshop.service.VendorService;
 import foodshop.utils.Utils;
@@ -33,6 +34,9 @@ public class InvoiceController {
 	@Autowired
 	private GoodService goodService;
 	
+	@Autowired
+	private GroupService groupService;
+	
 	@RequestMapping(value = { "" }, method = RequestMethod.GET)
 	public String invoicesPage(Model model, Principal principal) {
 		model.addAttribute("invoices", invoiceService.findAll());
@@ -45,6 +49,7 @@ public class InvoiceController {
 			Good good = goodService.getGoodById(goodId);
 			if (good != null) {
 				model.addAttribute("good", good);
+				model.addAttribute("groupHierarchy", groupService.buildGroupHierarchy(good.getGroup()));
 				model.addAttribute("vendors", vendorService.findAll());
 				return "invoices.Add invoice";
 			}
@@ -72,7 +77,7 @@ public class InvoiceController {
 				}
 			}
 		}
-		return "redirect:/invoices";
+		return "redirect:/goods";
 	}
 	
 	@RequestMapping(value = { "/{id}/edit" }, method = RequestMethod.GET)

@@ -24,4 +24,12 @@
 		<put-attribute name="body" value="/views/invoices/{1}.jsp"></put-attribute>
 		<put-attribute name="title" value="{1}"></put-attribute>
 	</definition>
+	<definition name="cart.*" extends="base.definition">
+		<put-attribute name="body" value="/views/cart/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{1}"></put-attribute>
+	</definition>
+	<definition name="sales.*" extends="base.definition">
+		<put-attribute name="body" value="/views/sales/{1}.jsp"></put-attribute>
+		<put-attribute name="title" value="{1}"></put-attribute>
+	</definition>
 </tiles-definitions>
