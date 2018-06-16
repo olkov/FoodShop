@@ -53,12 +53,7 @@ public class SaleServiceImpl implements SaleService {
 
 	@Override
 	public List<SaleDto> getDtosByUserId(Long userId, Boolean submited) {
-		List<Sale> sales = getByUserId(userId, submited);
-		List<SaleDto> saleDtos = new ArrayList<SaleDto>();
-		for (Sale sale : sales) {
-			saleDtos.add(new SaleDto(sale.getId(), sale.getDate(), salesDetailService.countBySaleId(sale.getId()), salesDetailService.totalBySaleId(sale.getId())));
-		}
-		return saleDtos;
+		return convertSalesToDtos(getByUserId(userId, submited));
 	}
 
 	@Override
@@ -108,5 +103,18 @@ public class SaleServiceImpl implements SaleService {
 	@Override
 	public Double totalByUserId(Long userId, Boolean submited) {
 		return getByUserId(userId, submited).stream().mapToDouble(sale -> salesDetailService.totalBySaleId(sale.getId())).sum();
+	}
+	
+	@Override
+	public List<SaleDto> getDtosByUserIdAndDatesRange(Long userId, Boolean submited, Date fromDate, Date toDate) {	
+		return convertSalesToDtos(saleDao.findByUserIdAndDatesRange(userId, submited, fromDate, toDate));
+	}
+	
+	private List<SaleDto> convertSalesToDtos(List<Sale> sales) {
+		List<SaleDto> saleDtos = new ArrayList<SaleDto>();
+		for (Sale sale : sales) {
+			saleDtos.add(new SaleDto(sale.getId(), sale.getDate(), salesDetailService.countBySaleId(sale.getId()), salesDetailService.totalBySaleId(sale.getId())));
+		}
+		return saleDtos;
 	}
 }

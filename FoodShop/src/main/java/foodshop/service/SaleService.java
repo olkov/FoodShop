@@ -1,5 +1,6 @@
 package foodshop.service;
 
+import java.util.Date;
 import java.util.List;
 
 import foodshop.dto.SaleDto;
@@ -26,4 +27,6 @@ public interface SaleService {
 	Integer countByUserId(Long userId, Boolean submited);
 	
 	Double totalByUserId(Long userId, Boolean submited);
+	
+	List<SaleDto> getDtosByUserIdAndDatesRange(Long userId, Boolean submited, Date fromDate, Date toDate);
 }

@@ -257,4 +257,19 @@ h3 {
     display: block;
     width: 160px;
 }
+  
+.date-filter {
+	text-align: center;
+}
    
+.date-filter .form-group {
+	width: 150px;
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.date-filter > button, .date-filter > a {
+	vertical-align: top;
+	margin-right: 5px;
+}
+

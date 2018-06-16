@@ -2,20 +2,26 @@ package foodshop.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.ParseException;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import foodshop.dto.SaleDto;
 import foodshop.entity.Sale;
 import foodshop.entity.User;
 import foodshop.service.SaleService;
 import foodshop.service.SalesDetailService;
 import foodshop.service.UserService;
+import foodshop.utils.Utils;
 
 @Controller
 public class UserController {
@@ -58,7 +64,11 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = { "/users/{userId}/sales/history", "/sales/history" }, method = RequestMethod.GET)
-	public String getSalesHistory(@PathVariable(value = "userId", required = false) Long userId, Principal principal, Model model) {
+	public String getSalesHistory(
+			@PathVariable(value = "userId", required = false) Long userId,
+			@RequestParam(name = "fromDate", required = false) String fromDate,
+			@RequestParam(name = "toDate", required = false) String toDate,
+			Principal principal, Model model) {
 		if(principal != null) {
 			User user = null;
 			if(userId != null) {
@@ -70,7 +80,19 @@ public class UserController {
 			} else {
 				user = userService.getUserByPrincipal(principal);
 			}
-			model.addAttribute("salesHistory", saleService.getDtosByUserId(user.getId(), true));
+			List<SaleDto> saleDtos = null;
+			if (StringUtils.isNotBlank(fromDate) && StringUtils.isNotBlank(toDate)) {
+				try {
+					saleDtos = saleService.getDtosByUserIdAndDatesRange(user.getId(), true, Utils.parseDate(fromDate), Utils.parseDate(toDate));
+					model.addAttribute("fromDate", fromDate);
+					model.addAttribute("toDate", toDate);
+				} catch (ParseException e) {
+					System.err.println("Incorrect date!\n" + e);
+				}
+			} else {
+				saleDtos = saleService.getDtosByUserId(user.getId(), true);
+			}
+			model.addAttribute("salesHistory", saleDtos);
 			return "sales.History";
 		} else {
 			return "redirect:/login";
