@@ -127,6 +127,7 @@
 		$("#editMode input").val("");
 		$("#editMode button").html("Add group");
 		$("#editMode").show();
+		$("#editMode input").focus();
 	}
 	
 	function showEditGroup(obj) {

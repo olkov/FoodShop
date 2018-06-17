@@ -15,9 +15,9 @@
 			<th>Name</th>
 			<th>Unit</th>
 			<th>Group</th>
-			<th>Produser</th>
+			<th style="width: 140px;">Produser</th>
 			<sec:authorize access="hasRole('ADMIN')">
-				<th style="width: 149px">Commands</th>
+				<th style="width: 117px">Commands</th>
 			</sec:authorize>
         </tr>
     </thead>
@@ -28,7 +28,7 @@
 				<td><c:out value="${good.code}"/></td>
 				<td><c:out value="${good.name}"/></td>
 			    <td><c:out value="${good.unit}"/></td>
-			    <td><c:out value="${good.group.name}"/></td>
+			    <td><c:out value="${good.groupTree}"/></td>
 			    <td><c:out value="${good.produser.name}"/></td>
 			    <sec:authorize access="hasRole('ADMIN')">
 				    <td class="commands">
@@ -93,7 +93,8 @@
 	            	,{"orderable": false}
 	            </sec:authorize>
             ],
-			"aaSorting": []
+			"aaSorting": [],
+			stateSave: true
 		});
 	});
 	
@@ -126,10 +127,13 @@
 				    	'<tr balance-id="' + data[i].id + '" good-id="' + goodId + '">' +
 				            '<td>' + data[i].dateOfReceiving.split(" ")[0] + '</td>'+
 				            '<td class="quantity">' + data[i].quantity + '</td>'+
-				            '<td>' + Number((data[i].pricePerUnit).toFixed(2)) + '</td>'+
+				            '<td>$' + Number((data[i].pricePerUnit).toFixed(2)) + '</td>'+
 				            '<td class="add-to-cart">' +
 				            	'<input tyle="text" class="form-control amt" placeholder="AMT" />'+
-				            	'<button onclick="addToCart(this);" class="btn btn-dark">Add to cart</button>'+
+				            	'<button onclick="addToCart(this);" class="btn btn-dark add-to-cart-button">Add to cart</button>'+
+				            	<sec:authorize access="hasRole('ADMIN')">
+				            		'<a href="/invoices/' + data[i].id + '/edit" class="btn btn-primary">Edit</a>'+
+				            	</sec:authorize>
 				            '</td>'+
 				        '</tr>';
 			    }

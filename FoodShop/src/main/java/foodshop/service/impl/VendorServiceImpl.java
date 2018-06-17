@@ -36,6 +36,6 @@ public class VendorServiceImpl implements VendorService {
 
 	@Override
 	public List<Vendor> findAll() {
-		return vendorDao.findAll();
+		return vendorDao.findAllVendors();
 	}
 }

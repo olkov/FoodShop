@@ -12,12 +12,16 @@ import foodshop.dto.GoodDto;
 import foodshop.entity.Good;
 import foodshop.service.BalanceService;
 import foodshop.service.GoodService;
+import foodshop.service.GroupService;
 
 @Service
 @Transactional
 public class GoodServiceImpl implements GoodService {
 	@Autowired
 	private GoodDao goodDao;
+	
+	@Autowired
+	private GroupService groupService;
 	
 	@Autowired
 	private BalanceService balanceService;
@@ -57,6 +61,7 @@ public class GoodServiceImpl implements GoodService {
 		for (Good good : goods) {
 			GoodDto dto = new GoodDto(good);
 			dto.setBalances(balanceService.getAllAvailableByGoodId(dto.getId()));
+			dto.setGroupTree(groupService.buildGroupHierarchy(good.getGroup()));
 			goodDtos.add(dto);
 		}
 		return goodDtos;

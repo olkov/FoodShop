@@ -169,7 +169,8 @@ tbody tr:hover:not(.childTable tr) {
 
 .commands a {
 	display: inline-block;
-	width: 80px;
+	/*width: 80px;*/
+	padding: 1px 7px;
 }
 
 .childTable tr {
@@ -194,14 +195,10 @@ tr.shown td.details-control {
 }
 
 .amt {
-	margin-right: 10px;
+	margin-right: 5px;
     width: 60px;
     display: inline-block;
     vertical-align: top;
-}
-
-.add-to-cart button {
-	width: 115px;
 }
 
 #hide-background {
@@ -210,6 +207,11 @@ tr.shown td.details-control {
 
 #cart-table td, #cart-table th, #goodsTable td, #goodsTable th, .users-table td, .users-table th {
 	vertical-align: middle;
+	padding: 5px;
+}
+
+#goodsTable td {
+	white-space: normal;
 }
 
 #cart-table .quantity {
@@ -287,3 +289,10 @@ h3 {
 .dropdown-item.active, .dropdown-item:active {
 	background-color: #6c757d;
 }
+
+.add-to-cart-button {
+	padding: 6px;
+    width: 100px;
+    margin-right: 5px;
+}
+

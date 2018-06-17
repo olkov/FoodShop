@@ -24,7 +24,8 @@ public class HomeController {
 	public String home(Model model, Principal principal) {
 		User user = userService.getUserByPrincipal(principal);
 		if (user != null) {
-			return "redirect:/users/" + user.getId();
+			//return "redirect:/users/" + user.getId();
+			return "redirect:/goods";
 		}
 		return "redirect:/login";
 	}

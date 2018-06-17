@@ -70,7 +70,7 @@ public class GroupServiceImpl implements GroupService {
 		}
 		String str = group.getName();
 		if (group.getParent() != null) {
-			return str = buildGroupHierarchy(group.getParent(), separator) + "<span> " + separator + " </span>" + str;
+			return str = buildGroupHierarchy(group.getParent(), separator) + " " + separator + " " + str;
 		}
 		return str;
 	}

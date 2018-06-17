@@ -33,6 +33,6 @@ public class ProduserServiceImpl implements ProduserService {
 
 	@Override
 	public List<Produser> findAll() {
-		return produserDao.findAll();
+		return produserDao.findAllProdusers();
 	}
 }

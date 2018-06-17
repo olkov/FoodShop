@@ -15,6 +15,7 @@ public class GoodDto {
 	private String unit;
 	private List<Balance> balances;
 	private Group group;
+	private String groupTree;
 	private Produser produser;
 	private List<Invoice> invoices;
 
@@ -92,6 +93,14 @@ public class GoodDto {
 
 	public void setInvoices(List<Invoice> invoices) {
 		this.invoices = invoices;
+	}
+
+	public String getGroupTree() {
+		return groupTree;
+	}
+
+	public void setGroupTree(String groupTree) {
+		this.groupTree = groupTree;
 	}
 
 	@Override

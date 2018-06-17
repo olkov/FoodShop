@@ -87,6 +87,7 @@ public class InvoiceController {
 			if (invoice != null) {
 				model.addAttribute("invoice", invoice);
 				model.addAttribute("good", invoice.getGood());
+				model.addAttribute("groupHierarchy", groupService.buildGroupHierarchy(invoice.getGood().getGroup()));
 				model.addAttribute("vendors", vendorService.findAll());
 				return "invoices.Edit invoice";
 			}
