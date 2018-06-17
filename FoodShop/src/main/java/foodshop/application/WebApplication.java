@@ -24,6 +24,7 @@ public class WebApplication extends SpringBootServletInitializer {
 	public static List<Role> roles = Arrays.asList(new Role(1, "SELLER", true), new Role(2, "ADMIN"));
 	public static String dateFormat = "MM/dd/yyyy";
 	public static String dateFormatSQL = "yyyy-MM-dd hh:mm:ss";
+	public static String dateFormatSQLNoTime = "yyyy-MM-dd";
 	
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		return application.sources(WebApplication.class);

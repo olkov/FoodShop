@@ -68,6 +68,8 @@ public class UserController {
 			@PathVariable(value = "userId", required = false) Long userId,
 			@RequestParam(name = "fromDate", required = false) String fromDate,
 			@RequestParam(name = "toDate", required = false) String toDate,
+			@RequestParam(name = "orderBy", required = false) String orderBy,
+			@RequestParam(name = "order", required = false) String order,
 			Principal principal, Model model) {
 		if(principal != null) {
 			User user = null;
@@ -81,16 +83,21 @@ public class UserController {
 				user = userService.getUserByPrincipal(principal);
 			}
 			List<SaleDto> saleDtos = null;
+			String orderParam  = StringUtils.isNotBlank(orderBy) ? (orderBy + " " + order) : null;
 			if (StringUtils.isNotBlank(fromDate) && StringUtils.isNotBlank(toDate)) {
 				try {
-					saleDtos = saleService.getDtosByUserIdAndDatesRange(user.getId(), true, Utils.parseDate(fromDate), Utils.parseDate(toDate));
+					saleDtos = saleService.getDtosByUserIdAndDatesRange(user.getId(), true, Utils.parseDate(fromDate), Utils.parseDate(toDate), orderParam);
 					model.addAttribute("fromDate", fromDate);
 					model.addAttribute("toDate", toDate);
 				} catch (ParseException e) {
 					System.err.println("Incorrect date!\n" + e);
 				}
 			} else {
-				saleDtos = saleService.getDtosByUserId(user.getId(), true);
+				saleDtos = saleService.getDtosByUserId(user.getId(), true, orderParam);
+			}
+			if(StringUtils.isNotBlank(orderParam)) {
+				model.addAttribute("orderBy", orderBy);
+				model.addAttribute("order", order);
 			}
 			model.addAttribute("salesHistory", saleDtos);
 			return "sales.History";

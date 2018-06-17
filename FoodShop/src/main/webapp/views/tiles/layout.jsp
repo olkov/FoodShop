@@ -9,8 +9,10 @@
 		<link rel="stylesheet" href=<c:url value="/resources/css/styles.css" />>
 		
 		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-		<script type="text/javascript" src=<c:url value="/resources/bootstrap-4.0.0/js/bootstrap.min.js" />></script>
+		<script type="text/javascript" src=<c:url value="/resources/bootstrap-4.0.0/js/popper.js" />></script>
+		<script type="text/javascript" src=<c:url value="/resources/bootstrap-4.0.0/js/bootstrap.min.js" />></script>	
 		<script type="text/javascript" src=<c:url value="/resources/js/lib.js" />></script>
+		
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><tiles:getAsString name="title" ignore="true"></tiles:getAsString></title>
 	</head>

@@ -1,6 +1,5 @@
 package foodshop.service.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import foodshop.dao.SaleDao;
+import foodshop.dao.SaleRepository;
 import foodshop.dto.SaleDto;
 import foodshop.entity.Balance;
 import foodshop.entity.Good;
@@ -31,6 +31,9 @@ public class SaleServiceImpl implements SaleService {
 	@Autowired
 	private SalesDetailService salesDetailService;
 	
+	@Autowired
+	private SaleRepository saleRepository;
+	
 	@Override
 	public Sale save(Sale sale) {
 		return saleDao.save(sale);
@@ -50,10 +53,10 @@ public class SaleServiceImpl implements SaleService {
 	public void deleteById(Long saleId) {
 		saleDao.deleteById(saleId);
 	}
-
+	
 	@Override
-	public List<SaleDto> getDtosByUserId(Long userId, Boolean submited) {
-		return convertSalesToDtos(getByUserId(userId, submited));
+	public List<SaleDto> getDtosByUserId(Long userId, Boolean submited, String order) {
+		return saleRepository.findByUserId(userId, submited, order);
 	}
 
 	@Override
@@ -106,15 +109,7 @@ public class SaleServiceImpl implements SaleService {
 	}
 	
 	@Override
-	public List<SaleDto> getDtosByUserIdAndDatesRange(Long userId, Boolean submited, Date fromDate, Date toDate) {	
-		return convertSalesToDtos(saleDao.findByUserIdAndDatesRange(userId, submited, fromDate, toDate));
-	}
-	
-	private List<SaleDto> convertSalesToDtos(List<Sale> sales) {
-		List<SaleDto> saleDtos = new ArrayList<SaleDto>();
-		for (Sale sale : sales) {
-			saleDtos.add(new SaleDto(sale.getId(), sale.getDate(), salesDetailService.countBySaleId(sale.getId()), salesDetailService.totalBySaleId(sale.getId())));
-		}
-		return saleDtos;
+	public List<SaleDto> getDtosByUserIdAndDatesRange(Long userId, Boolean submited, Date fromDate, Date toDate, String order) {
+		return saleRepository.findByUserIdAndDatesRange(userId, submited, fromDate, toDate, order);
 	}
 }

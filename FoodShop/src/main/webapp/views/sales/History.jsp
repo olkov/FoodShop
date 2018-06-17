@@ -12,6 +12,39 @@
 			</div>
 		</c:when>
 		<c:otherwise>
+			<div class="sort-container">
+				<strong>Sort by: </strong>
+				<div class="btn-group" role="group">
+					<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle <c:if test="${orderBy == 'date'}">secondary-focus</c:if>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    	Date
+				    </button>
+				    <div class="dropdown-menu sort-item" param-name="date" aria-labelledby="btnGroupDrop1">
+				    	<a class="dropdown-item <c:if test="${orderBy == 'date' && order == 'ASC'}">active</c:if>" href="" param-name="ASC">Ascending</a>
+				      	<a class="dropdown-item <c:if test="${orderBy == 'date' && order == 'DESC'}">active</c:if>" href="" param-name="DESC">Descending</a>
+				    </div>
+				</div> 
+				<div class="btn-group" role="group">
+				  	<button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle <c:if test="${orderBy == 'amount'}">secondary-focus</c:if>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    	Amount
+				    </button>
+				    <div class="dropdown-menu sort-item" param-name="amount" aria-labelledby="btnGroupDrop1">
+				    	<a class="dropdown-item <c:if test="${orderBy == 'amount' && order == 'ASC'}">active</c:if>" href="" param-name="ASC">Lowest to Highest</a>
+				      	<a class="dropdown-item <c:if test="${orderBy == 'amount' && order == 'DESC'}">active</c:if>" href="" param-name="DESC">Highest to Lowest</a>
+				    </div>
+				</div>
+				<div class="btn-group" role="group">
+				  	<button id="btnGroupDrop3" type="button" class="btn btn-secondary dropdown-toggle <c:if test="${orderBy == 'total'}">secondary-focus</c:if>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				    	Total
+				    </button>
+				    <div class="dropdown-menu sort-item" param-name="total" aria-labelledby="btnGroupDrop1">
+				    	<a class="dropdown-item <c:if test="${orderBy == 'total' && order == 'ASC'}">active</c:if>" href="" param-name="ASC">Lowest to Highest</a>
+				      	<a class="dropdown-item <c:if test="${orderBy == 'total' && order == 'DESC'}">active</c:if>" href="" param-name="DESC">Highest to Lowest</a>
+				    </div>
+				</div>
+				<c:if test="${orderBy != null && order != null}">
+					<a href="/sales/history" class="btn btn-outline-secondary">Remove sorting</a>
+				</c:if>
+			</div>
 			<form action="/sales/history" method="GET" class="date-filter">
 				<div class="form-group">
 					<input type="text" class="form-control" name="fromDate" id="fromDate" placeholder="From date" value="${fromDate}" required />
@@ -19,11 +52,12 @@
 				<div class="form-group">
 					<input type="text" class="form-control" name="toDate" id="toDate" placeholder="To date" value="${toDate}" required />
 				</div>
-				<button type="submit" class="btn btn-primary" onclick="return valid();">Filter</button>
+				<button type="submit" class="btn btn-secondary" onclick="return valid();">Filter</button>
 				<c:if test="${fromDate != null && toDate != null}">
-					<a href="/sales/history" class="btn btn-outline-primary">Remove filter</a>
+					<a href="/sales/history" class="btn btn-outline-secondary">Remove filter</a>
 				</c:if>
 			</form>
+			<div style="clear: both;"></div>
 			<c:choose>
 				<c:when test="${salesHistory.isEmpty()}">
 					<div class="cart-message">
@@ -74,6 +108,30 @@
 					}
 					return false;
 				}
+				
+				var url = window.location.pathname;
+				var params = window.location.search;
+				
+				$(".sort-item").each(function() {
+					buildSortURL(this);
+				});
+				
+				//$(".date-filter").attr("action", url);
+			
+				function buildSortURL(elem) {
+					var firstParam = $(elem).attr("param-name");
+					$(elem).find("a").each(function() {
+						var secondParam = $(this).attr("param-name");
+						//var newURL = url + ((params != "" && params != undefined) ? params + "&" : "?") + "orderBy=" + firstParam + "&order=" + secondParam;
+						var newURL = url + "?orderBy=" + firstParam + "&order=" + secondParam;
+						<c:if test="${fromDate != null && toDate != null}">
+							newURL += "&fromDate=" + $("#fromDate").val().split('/').join("%2F") + "&toDate=" + $("#toDate").val().split('/').join("%2F");
+						</c:if>
+						$(this).attr("href", newURL);
+					});
+				}
+				
+				//%2F
 			</script>
 			<style>
 				.form-control:focus {

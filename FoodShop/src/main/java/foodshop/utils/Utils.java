@@ -14,4 +14,8 @@ public class Utils {
 	public static Date parseSQLDate(String date) throws ParseException {
 		return new SimpleDateFormat(WebApplication.dateFormatSQL).parse(date);
 	}
+	
+	public static String getStringDate(Date date) {
+		return new SimpleDateFormat(WebApplication.dateFormatSQLNoTime).format(date);
+	}
 }

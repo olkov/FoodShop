@@ -260,6 +260,8 @@ h3 {
   
 .date-filter {
 	text-align: center;
+	display: inline-block;
+    float: right;
 }
    
 .date-filter .form-group {
@@ -273,3 +275,15 @@ h3 {
 	margin-right: 5px;
 }
 
+.sort-container {
+	display: inline-block;
+    float: left;
+}
+
+.secondary-focus {
+	box-shadow: 0 0 0 0.2rem rgba(108,117,125,.5);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+	background-color: #6c757d;
+}

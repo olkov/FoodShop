@@ -16,8 +16,6 @@ public interface SaleService {
 
 	void deleteById(Long saleId);
 
-	List<SaleDto> getDtosByUserId(Long userId, Boolean submited);
-	
 	List<Sale> getByUserId(Long userId, Boolean submited);
 	
 	Sale getByUserName(String userName);
@@ -28,5 +26,7 @@ public interface SaleService {
 	
 	Double totalByUserId(Long userId, Boolean submited);
 	
-	List<SaleDto> getDtosByUserIdAndDatesRange(Long userId, Boolean submited, Date fromDate, Date toDate);
+	List<SaleDto> getDtosByUserIdAndDatesRange(Long userId, Boolean submited, Date fromDate, Date toDate, String order);
+	
+	List<SaleDto> getDtosByUserId(Long userId, Boolean submited, String order);
 }
