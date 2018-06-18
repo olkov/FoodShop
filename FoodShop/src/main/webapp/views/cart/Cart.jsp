@@ -19,10 +19,10 @@
 			    	<tr>
 			    		<th scope="col">Code</th>
 			    		<th scope="col">Name</th>
-			    		<th scope="col">Unit</th>
 			    		<th scope="col">Group</th>
 			    		<th scope="col">Produser</th>
 			    		<th scope="col">Quantity</th>
+			    		<th scope="col">Unit</th>
 			    		<th scope="col">Price</th>
 			    		<th scope="col" style="width: 100px;">Commands</th>
 			    	</tr>
@@ -32,15 +32,17 @@
 			    		<tr sales-detail-id="${salesDetail.id}">
 			    			<th scope="row">${salesDetail.good.code}</th>
 				      		<td>${salesDetail.good.name}</td>
-				      		<td>${salesDetail.good.unit}</td>
 				      		<td>${salesDetail.good.group.name}</td>
 				      		<td>${salesDetail.good.produser.name}</td>
 				      		<td class="quantity" quantity="${salesDetail.quantity}">
 				      			<input tyle="text" class="form-control amt" placeholder="AMT" value="<fmt:formatNumber type="number" maxFractionDigits="3" value="${salesDetail.quantity}"/>" style="margin-right: 3px;">
 				      			<button onclick="editQuantity(this);" class="btn btn-dark">Edit</button>
 				      		</td>
+				      		<td>${salesDetail.good.unit}</td>
 				      		<td class="price">
-				      			$<fmt:formatNumber type="number" maxFractionDigits="2" value="${salesDetail.price}"/>
+				      			<strong>
+				      				$<fmt:formatNumber type="number" maxFractionDigits="2" value="${salesDetail.price}"/>
+				      			</strong>
 				      		</td>
 				      		<td class="commands">
 				      			<a href="/cart/${salesDetail.id}/delete" class="btn btn-primary">Delete</a>

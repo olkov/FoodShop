@@ -53,8 +53,8 @@ public class SalesDetailServiceImpl implements SalesDetailService {
 	}
 	
 	@Override
-	public SalesDetail getBySaleIdAndGoodId(Long saleId, Long goodId) {
-		return salesDetailDao.findBySaleIdAndGoodId(saleId, goodId);
+	public SalesDetail getBySaleIdAndGoodId(Long saleId, Long goodId, Long balanceId) {
+		return salesDetailDao.findBySaleIdAndGoodId(saleId, goodId, balanceId);
 	}
 	
 	@Override

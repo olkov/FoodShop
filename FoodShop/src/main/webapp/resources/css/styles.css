@@ -230,8 +230,10 @@ tr.shown td.details-control {
 	display: inline-block;
     float: right;
     font-size: 30px;
-    margin-right: 15px;
     text-align: center;
+    margin-right: 50px;
+    margin-top: 10px;
+    margin-bottom: 50px;
 }
 
 .total a {
@@ -296,3 +298,18 @@ h3 {
     margin-right: 5px;
 }
 
+.print-button-container {
+	text-align: center;
+}
+
+#printButton {
+	display: inline-block;
+    width: inherit;
+    padding: 1px 10px;
+}
+
+@media print {
+	#printButton, #adminInfo {
+		visibility: hidden;
+	}
+}

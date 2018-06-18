@@ -79,7 +79,7 @@ public class SaleServiceImpl implements SaleService {
 			} else {
 				sale = save(new Sale(new Date(), user));
 			}
-			SalesDetail salesDetailFromDB = salesDetailService.getBySaleIdAndGoodId(sale.getId(), good.getId());
+			SalesDetail salesDetailFromDB = salesDetailService.getBySaleIdAndGoodId(sale.getId(), good.getId(), balance.getId());
 			if(salesDetailFromDB != null) {
 				if(balance.getQuantity() - (quantity) >= 0) {
 					balance.setQuantity(balance.getQuantity() - quantity);

@@ -1,6 +1,7 @@
 package foodshop.controller;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,10 +130,11 @@ public class CartController {
 		if (principal != null) {
 			Sale sale = saleService.getById(saleId);
 			if(sale != null) {
+				sale.setDate(new Date());
 				sale.setStatus(true);
 				saleService.save(sale);
 			}
-			return "redirect:/goods";
+			return "redirect:/sales/" + sale.getId();
 		}
 		return "redirect:/login";
 	}

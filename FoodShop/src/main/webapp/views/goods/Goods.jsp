@@ -3,9 +3,11 @@
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<h3>Goods</h3>
+<h3 style="margin-bottom: 10px;">Goods</h3>
 <sec:authorize access="hasRole('ADMIN')">
-	<a href="/goods/add" class="btn btn-primary" style="margin: 10px auto; display: block; width: 120px;">Add good</a>
+<div style="text-align: center;">
+	<a href="/goods/add" class="btn btn-primary" style="padding: 2px 10px; display: inline-block;">Add good</a>
+</div>
 </sec:authorize>
 <table id="goodsTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%; border-collapse: collapse !important;">
 	<thead>
@@ -17,7 +19,7 @@
 			<th>Group</th>
 			<th style="width: 140px;">Produser</th>
 			<sec:authorize access="hasRole('ADMIN')">
-				<th style="width: 117px">Commands</th>
+				<th style="min-width: 117px;">Commands</th>
 			</sec:authorize>
         </tr>
     </thead>
@@ -165,7 +167,7 @@
 						if(data != undefined && data != null && data == "success") {
 							amtElem.val("");
 							quantityElem.text(parseFloat(quantityElem.text()) - parseFloat(amt));
-							window.location.href = "/cart";
+							//window.location.href = "/cart";
 						} else {
 							alert(data);
 						}

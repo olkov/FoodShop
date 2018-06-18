@@ -13,8 +13,8 @@ public interface SalesDetailDao extends JpaRepository<SalesDetail, Long> {
 	@Query("select sd from SalesDetail sd where sd.sale.id = ?1")
 	List<SalesDetail> findBySaleId(Long saleId);
 
-	@Query("select sd from SalesDetail sd where sd.sale.id = ?1 and sd.good.id = ?2")
-	SalesDetail findBySaleIdAndGoodId(Long saleId, Long goodId);
+	@Query("select sd from SalesDetail sd where sd.sale.id = ?1 and sd.good.id = ?2 and sd.balanceId = ?3")
+	SalesDetail findBySaleIdAndGoodId(Long saleId, Long goodId, Long balanceId);
 	
 	@Query("select count(sd.id) from SalesDetail sd where sd.sale.id = ?1")
 	Integer countBySaleId(Long saleId);

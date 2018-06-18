@@ -11,7 +11,7 @@ public interface SalesDetailService {
 
 	List<SalesDetail> getBySaleId(Long saleId);
 	
-	SalesDetail getBySaleIdAndGoodId(Long saleId, Long goodId);
+	SalesDetail getBySaleIdAndGoodId(Long saleId, Long goodId, Long balanceId);
 	
 	void delete(SalesDetail salesDetail);
 
